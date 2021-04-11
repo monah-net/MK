@@ -24,24 +24,17 @@ const player1 = {
 		function changeHP(player){
 			const $playerLife = document.querySelector('.player' + player.player + ' .life');
 			player.hp -= Math.ceil(Math.random()*20);
-			$playerLife.style.width = player.hp + '%';
 
-			if (player1.hp === 0 && player2.hp === 0) {
-				$randomButton.disabled = 'true';
-				$arena.appendChild(playersDraw());
-			}
-			else if (player.hp < 0 && player.player === 2) {
-				$randomButton.disabled = 'true';
-				$arena.appendChild(playerWin(player1.name));
-			} else if (player.hp < 0 && player.player === 1){
-				$randomButton.disabled = 'true';
-				$arena.appendChild(playerWin(player2.name));
+			if(player.hp <= 0) {
+				player.hp = 0;
 			};
+			$playerLife.style.width = player.hp + '%';
 		}
 
 		function clickHandler(event) {
 			changeHP(player1);
 			changeHP(player2);
+			checkHP(player1,player2);
 		}
 
 		function playerWin (name){
@@ -84,7 +77,16 @@ const player1 = {
 			$player.appendChild($progressbar);
 			$player.appendChild($character);
 			$arena.appendChild($player);
-			};
+			}
+
+		function checkHP (player1,player2){
+			if((player1.hp == 0) && (player2.hp == 0)){$randomButton.disabled = 'true';
+				$arena.appendChild(playersDraw());} 
+				else if (player1.hp == 0) {$randomButton.disabled = 'true';
+				$arena.appendChild(playerWin(player2.name));} 
+					else if (player2.hp == 0) {$randomButton.disabled = 'true';
+				$arena.appendChild(playerWin(player1.name));};
+		}
 
 			createPlayer(player1);
 			createPlayer(player2);
