@@ -23,13 +23,13 @@ const player2 = {
     }
 };
 
-function math_1_20(){
+function mathRandom20(){
 	return Math.ceil(Math.random() * 20);
 }
 
 function changeHP(player) {
     const $playerLife = document.querySelector('.player' + player.player + ' .life');
-    player.hp -= math_1_20();
+    player.hp -= mathRandom20();
     if (player.hp <= 0) {
         player.hp = 0;
     };
