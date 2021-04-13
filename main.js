@@ -91,12 +91,6 @@ function clickHandler(event) {
     if(checkStatus()){
         createReloadButton();
     };
-    try {
-        $reloadButton.addEventListener('click', function(){window.location.reload()});
-    } catch(e) {
-        
-        console.log(e);
-    };
 }
 
 function playerWins(name) {
@@ -129,6 +123,7 @@ function createReloadButton(){
     $createReloadButton.textContent = 'reload';
     $reloadWrap.appendChild($createReloadButton);
     $arena.appendChild($reloadWrap);
+    $createReloadButton.addEventListener('click',function(){window.location.reload()});
 }
 
 function checkStatus(){
