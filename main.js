@@ -1,7 +1,13 @@
 const $arena = document.querySelector('.arenas');
-const $randomButton = document.querySelector('.control .button');
-const $control = document.querySelector('.arenas .control');
 const $reloadButton = document.querySelector('.reloadWrap .button');
+const $form = document.querySelector('.control');
+
+const HIT = {
+    head: 30,
+    body: 25,
+    foot: 20,
+}
+const ATTACK = ['head', 'body', 'foot'];
 
 const player1 = {
     player: 1,
@@ -31,7 +37,8 @@ const player2 = {
     renderHP: renderHP
 };
 
-function mathRandom(number) {
+
+function getRandom(number) {
     return Math.ceil(Math.random() * number);
 }
 
@@ -64,7 +71,7 @@ function createPlayer(playerObj) {
 }
 
 function changeHP(changeHP) {
-    this.hp -= mathRandom(20);
+    this.hp -= getRandom(20);
     if (this.hp <= 0) {
         this.hp = 0;
     }
@@ -77,19 +84,29 @@ function elHP() {
 }
 
 function renderHP() {
-    const $playerLife = document.querySelector('.player' + this.player + ' .life');
     this.elHP().style.width = this.hp + '%';
 }
 
-function clickHandler(event) {
-    player1.changeHP(mathRandom(20));
-    player1.renderHP();
-    player2.changeHP(mathRandom(20));
-    player2.renderHP();
+function mainFight() {
+    const enemyActions = enemyAttack();
+    const playerActions = playerAttack();
 
+    if (playerActions.hit === enemyActions.defence) {
+
+    } else {
+        player2.changeHP(playerActions.value);
+        player2.renderHP();
+    }
+    if (enemyActions.hit === playerActions.defence) {
+
+    } else {
+        player1.changeHP(enemyActions.value);
+        player1.renderHP();
+
+    }
     checkHP(player1, player2);
-    if(checkStatus()){
-        createReloadButton();
+    if (checkStatus()) {
+        $arena.appendChild(createReloadButton());
     };
 }
 
@@ -106,36 +123,73 @@ function playerWins(name) {
 
 function checkHP(player1, player2) {
     if (player1.hp == 0 && player2.hp == 0) {
-        $randomButton.disabled = true;
         $arena.appendChild(playerWins());
     } else if (player1.hp == 0) {
-        $randomButton.disabled = true;
         $arena.appendChild(playerWins(player2.name));
     } else if (player2.hp == 0) {
-        $randomButton.disabled = true;
         $arena.appendChild(playerWins(player1.name));
     };
 }
 
-function createReloadButton(){
-    $reloadWrap = createElement('div','reloadWrap');
-    $createReloadButton = createElement('button','button');
+function createReloadButton() {
+    $reloadWrap = createElement('div', 'reloadWrap');
+    $createReloadButton = createElement('button', 'button');
     $createReloadButton.textContent = 'reload';
     $reloadWrap.appendChild($createReloadButton);
-    $arena.appendChild($reloadWrap);
-    $createReloadButton.addEventListener('click',function(){window.location.reload()});
+    $createReloadButton.addEventListener('click', function() { window.location.reload() });
+    return $reloadWrap;
 }
 
-function checkStatus(){
+function checkStatus() {
     let result;
     const winStatus = document.getElementsByClassName('loseTitle');
-    if(winStatus[0]){
+    if (winStatus[0]) {
         result = true;
-    } else { result = false};
+    } else { result = false };
     return result;
+}
+
+function enemyAttack() {
+    const hit = ATTACK[getRandom(3) - 1];
+    const defence = ATTACK[getRandom(3) - 1];
+    const value = HIT[hit];
+    const enemyAttackObject = {
+        hit: hit,
+        defence: defence,
+        value: value
+    };
+    return enemyAttackObject;
+}
+
+function playerAttack() {
+    const playerAttackObj = {
+        hit: ' ',
+        defence: ' ',
+        value: ' ',
+    };
+
+    for (let i of $form) {
+        const item = i;
+        if (item.type === 'radio' && item.name === 'hit' && item.checked) {
+            playerAttackObj.hit = item.value;
+        } else if (item.type === 'radio' && item.name === 'defence' && item.checked) {
+            playerAttackObj.defence = item.value;
+        }
+    }
+    playerAttackObj.value = HIT[playerAttackObj.hit];
+    return playerAttackObj;
+}
+
+function disableAllButtons(){
+    for (i of $form) {
+        i.checked = false;
+    };
 }
 
 createPlayer(player1);
 createPlayer(player2);
-$randomButton.addEventListener('click', clickHandler);
-
+$form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    mainFight();
+    disableAllButtons();
+});
