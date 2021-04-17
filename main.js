@@ -91,19 +91,17 @@ function mainFight() {
     const enemyActions = enemyAttack();
     const playerActions = playerAttack();
 
-    if (playerActions.hit === enemyActions.defence) {
-
-    } else {
+    if (playerActions.hit !== enemyActions.defence) {
         player2.changeHP(playerActions.value);
         player2.renderHP();
     }
-    if (enemyActions.hit === playerActions.defence) {
 
-    } else {
+    if (enemyActions.hit !== playerActions.defence) {
         player1.changeHP(enemyActions.value);
         player1.renderHP();
 
     }
+    
     checkHP(player1, player2);
     if (checkStatus()) {
         $arena.appendChild(createReloadButton());
@@ -180,7 +178,7 @@ function playerAttack() {
     return playerAttackObj;
 }
 
-function disableAllButtons(){
+function disableAllButtons() {
     for (i of $form) {
         i.checked = false;
     };
