@@ -1,0 +1,27 @@
+<!-- Initialize variables -->
+var destinationLink = $link_rbh;
+var targetFile = getSystemDefault('BD_INPUT_DIR') + 'rbh_parameters_' + formatDate(ASOF_DATE, "yyyy_MM_dd") + '.xlsx';
+
+ 
+
+<!-- Create connection to the destination -->
+var url = new("java.net.URL", destinationLink);
+var connection = url.openConnection();
+connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
+
+ 
+
+var outStream = new("java.io.FileOutputStream", targetFile);
+var inStream = new("java.io.BufferedInputStream", connection.getInputStream());
+var buffSize = 8192;
+var buffer = class("java.nio.ByteBuffer").allocate(buffSize).array();
+
+ 
+
+<for> var count = inStream.read(buffer, 0, buffSize) <comma/> count != -1 <comma/> count = inStream.read(buffer, 0, buffSize)
+    <do>
+        outStream.write(buffer, 0, count);
+    </do>
+</for>
+inStream.close();
+outStream.close();
