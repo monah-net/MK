@@ -1,6 +1,7 @@
-import {$chat} from './elements.js'; 
-import {getRandom} from './utils.js';
-export const logs = {
+import {$chat} from "./elements.js"; 
+import Game from "./game.js";
+import {getRandom} from "./utils.js";
+export const LOGS = {
   start:
     "Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.",
   end: [
@@ -56,7 +57,7 @@ export function generateLogs(type, player1, player2, playerHP, hp) {
   let temp = "";
   switch (type) {
     case "start":
-      temp = logs[type]
+      temp = LOGS[type]
         .replaceAll("[time]", getTime())
         .replaceAll("[player1]", player1.name)
         .replaceAll("[player2]", player2.name);
@@ -65,7 +66,7 @@ export function generateLogs(type, player1, player2, playerHP, hp) {
       temp =
         getTime() +
         " " +
-        logs[type][getRandom(logs[type].length - 1)]
+        LOGS[type][getRandom(LOGS[type].length - 1)]
           .replaceAll("[playerWins]", player1.name)
           .replaceAll("[playerLose]", player2.name);
       break;
@@ -73,7 +74,7 @@ export function generateLogs(type, player1, player2, playerHP, hp) {
       temp =
         getTime() +
         " " +
-        logs[type][getRandom(logs[type].length - 1)]
+        LOGS[type][getRandom(LOGS[type].length - 1)]
           .replaceAll("[playerKick]", player1.name)
           .replaceAll("[playerDefence]", player2.name) +
         " -" +
@@ -86,7 +87,7 @@ export function generateLogs(type, player1, player2, playerHP, hp) {
       temp =
         getTime() +
         " " +
-        logs[type][getRandom(logs[type].length - 1)]
+        LOGS[type][getRandom(LOGS[type].length - 1)]
           .replaceAll("[playerKick]", player1.name)
           .replaceAll("[playerDefence]", player2.name) +
         " -" +
@@ -96,7 +97,7 @@ export function generateLogs(type, player1, player2, playerHP, hp) {
         "/100";
       break;
     case "draw":
-      temp = getTime() + " " + logs[type];
+      temp = getTime() + " " + LOGS[type];
       break;
   }
   const el = `<p>${temp}</p>`;

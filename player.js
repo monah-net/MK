@@ -1,35 +1,30 @@
-import {changeHP,elHP,renderHP} from './utils.js';
-export const player1 = {
-    player: 1,
-    name: 'SCORPION',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-    weapon: [],
-    attack: function(name) {
-        console.log(this.name + " Fight...")
-    },
-    changeHP: changeHP,
-    elHP: elHP,
-    renderHP: renderHP
-};
-
-export const player2 = {
-    player: 2,
-    name: 'SONYA',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/sonya.gif',
-    weapon: [],
-    attack: function(name) {
-        console.log(this.name + " Fight...")
-    },
-    changeHP: changeHP,
-    elHP: elHP,
-    renderHP: renderHP
-};
-
-export const HIT = {
-    head: 30,
-    body: 25,
-    foot: 20,
+class Player {
+  constructor(props) {
+    this.player = props.player;
+    this.name = props.name;
+    this.hp = props.hp;
+    this.img = props.img;
+    this.weapon = props.weapon;
+    this.changeHP
+  }
+  attack = () => {
+    console.log(`${this.name} let is Fight...`);
+  };
+  changeHP = (changeHP) => {
+    this.hp -= changeHP;
+    if (this.hp <= 0) {
+      this.hp = 0;
+    }
+    return this.hp;
+  };
+  elHP = () => {
+    const $playerLife = document.querySelector(
+      ".player" + this.player + " .life"
+    );
+    return $playerLife;
+  };
+  renderHP = () => {
+    this.elHP().style.width = this.hp + "%";
+  };
 }
-export const ATTACK = ['head', 'body', 'foot'];
+export default Player;
