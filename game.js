@@ -57,8 +57,8 @@ class Game {
   };
 
   createReloadButton = () => {
-    const $reloadWrap = createElement("div", "reloadWrap");
-    const $createReloadButton = createElement("button", "button");
+    const $reloadWrap = this.createElement("div", "reloadWrap");
+    const $createReloadButton = this.createElement("button", "button");
     $createReloadButton.textContent = "reload";
     $reloadWrap.appendChild($createReloadButton);
     $createReloadButton.addEventListener("click", function () {
@@ -103,20 +103,18 @@ class Game {
     } else {
       generateLogs("defence", this.player2, this.player1, this.player1.hp);
     }
-    this.checkHP;
-    console.log(this.checkStatus === true)
-    if (this.checkStatus) {
-      this.createReloadButton;
+    this.checkHP(this.player1,this.player2);
+    if (this.checkStatus()) {
+      this.createReloadButton();
     }
   };
 
   playerWins = (name) => {
-    const $winTitle = createElement("div", "loseTitle");
+    const $winTitle = this.createElement("div", "loseTitle");
     if (name) {
       $winTitle.innerText = name + " wins";
     } else {
       $winTitle.innerText = "draw";
-      generateLogs("draw");
     }
 
     return $winTitle;
@@ -124,13 +122,13 @@ class Game {
 
   checkHP = (player1, player2) => {
     if (player1.hp == 0 && player2.hp == 0) {
-      $arena.appendChild(playerWins());
+      $arena.appendChild(this.playerWins());
       generateLogs("draw");
     } else if (player1.hp == 0) {
-      $arena.appendChild(playerWins(player2.name));
+      $arena.appendChild(this.playerWins(player2.name));
       generateLogs("end", player2, player1);
     } else if (player2.hp == 0) {
-      $arena.appendChild(playerWins(player1.name));
+      $arena.appendChild(this.playerWins(player1.name));
       generateLogs("end", player1, player2);
     }
   };
