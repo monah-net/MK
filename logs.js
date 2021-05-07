@@ -78,7 +78,7 @@ export function generateLogs(type, player1, player2, playerHP, hp) {
           .replaceAll("[playerKick]", player1.name)
           .replaceAll("[playerDefence]", player2.name) +
         " -" +
-        playerHP +
+        playerHP +ß
         "hp " +
         hp +
         "/100";

@@ -106,7 +106,7 @@ class Game {
     this.checkHP(this.player1,this.player2);
     if (this.checkStatus()) {
       this.createReloadButton();
-    }
+    }ß
   };
 
   playerWins = (name) => {
