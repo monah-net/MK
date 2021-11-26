@@ -1,5 +1,4 @@
 import {$chat} from "./elements.js"; 
-import Game from "./game.js";
 import {getRandom} from "./utils.js";
 export const LOGS = {
   start:
@@ -78,7 +77,7 @@ export function generateLogs(type, player1, player2, playerHP, hp) {
           .replaceAll("[playerKick]", player1.name)
           .replaceAll("[playerDefence]", player2.name) +
         " -" +
-        playerHP +ß
+        playerHP +
         "hp " +
         hp +
         "/100";

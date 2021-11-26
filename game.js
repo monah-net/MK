@@ -158,9 +158,9 @@ class Game {
 
   playerAttack = () => {
     const playerAttackObj = {
-      hit: " ",
-      defence: " ",
-      value: " ",
+      hit: "",
+      defence: "",
+      value: 0,
     };
 
     for (let i of $form) {
